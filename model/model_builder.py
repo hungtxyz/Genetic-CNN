@@ -57,7 +57,7 @@ class Net(nn.Module):
         self.conv_list = [[self.conv1, self.conv2, self.conv3, self.conv4, self.conv5],
                           [self.conv6, self.conv7, self.conv8, self.conv9, self.conv10]]
 
-        def back_trace(num_operator, phase_code, phase_conv):
+        def link(num_operator, phase_code, phase_conv):
 
             if num_operator == 1:
                 return F.relu(phase_conv[num_operator - 1](x))
@@ -65,7 +65,7 @@ class Net(nn.Module):
                 result = 0
                 for i, bit in enumerate(phase_code[num_operator - 2]):
                     if bit == 1:
-                        r = back_trace(i + 1, phase_code, phase_conv)
+                        r = link(i + 1, phase_code, phase_conv)
                         if not isinstance(r, type(None)):
                             result += r
                 a = (np.array(phase_code[num_operator - 2]) == 1).sum()
@@ -75,18 +75,12 @@ class Net(nn.Module):
 
         for i, phase in enumerate(self.conv_list):
             # x = phase[0](x)
-            out_phase = back_trace(len(phase), self.code[i], phase)
+            out_phase = link(len(phase), self.code[i], phase)
             x = self.pool(out_phase)
         x = torch.flatten(x, 1)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return self.fc3(x)
-        # for phase in self.conv_list:
-        #     for conv in phase:
-        #         x = conv(x)
-        #     x = self.pool(x)
-        #
-        # return x
 
 
 if __name__ == '__main__':

@@ -34,6 +34,5 @@ def decode(binary_array, num_phase):
 if __name__ == "__main__":
     n_phases = 1
     bit_string = np.array([1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1])
-    # print(bit_string)
     genome = decode(bit_string, 2)
     print(genome)

@@ -26,36 +26,14 @@ class Net(nn.Module):
                 else:
                     phase_conv.append(nn.Conv2d(8, 8, 3, padding="same"))
             self.conv_list.append(nn.ModuleList(phase_conv))
-        #     if phase == 0:
-        #         self.conv1 = self.conv_list[0][0]
-        #         self.conv2 = self.conv_list[0][1]
-        #         self.conv3 = self.conv_list[0][2]
-        #         self.conv4 = self.conv_list[0][3]
-        #         self.conv5 = self.conv_list[0][4]
-        #     else:
-        #         self.conv6 = self.conv_list[1][0]
-        #         self.conv7 = self.conv_list[1][1]
-        #         self.conv8 = self.conv_list[1][2]
-        #         self.conv9 = self.conv_list[1][3]
-        #         self.conv10 = self.conv_list[1][4]
-        #
-        # self.conv1 = nn.Conv2d(3, 8, 3, padding="same")
-        #
-        # self.conv_list = [[self.conv1, self.conv2, self.conv3, self.conv4, self.conv5],
-        #                   [self.conv6, self.conv7, self.conv8, self.conv9, self.conv10]]
-
-        # print(self.conv_list)
 
         self.layers = nn.ModuleList(self.conv_list)
         self.pool = nn.MaxPool2d(2, 2)
         self.fc1 = nn.Linear(8 * int((input_shape / (2 ** num_phase)) ** 2), 128)
         self.fc2 = nn.Linear(128, 64)
         self.fc3 = nn.Linear(64, 10)
-        # self.conv123 = nn.Conv2d(1000, 10000, (3, 3))
 
     def forward(self, x):
-        # self.conv_list = [[self.conv1, self.conv2, self.conv3, self.conv4, self.conv5],
-        #                   [self.conv6, self.conv7, self.conv8, self.conv9, self.conv10]]
 
         def link(num_operator, phase_code, phase_conv):
 
